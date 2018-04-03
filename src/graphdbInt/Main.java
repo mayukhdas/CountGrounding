@@ -12,13 +12,12 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		
-		String FactFile = "./data/facts.txt";
-		String RWFile = "./data/RWRPredicates.txt";
-		String outputFileName = "./data/groundingsFullNoCap_test.txt";
+		String FactFile = "./DDI/facts.txt";
+		String RWFile = "./DDI/RWRPredicates.txt";
+		String posFile = "./DDI/pos.txt";
+		String negFile = "./DDI/neg.txt";
+		String outputFileName = "./DDI/groundingsFullNoCap_test.txt";
 		
-		FactFile = args[0];
-		RWFile = args[1];
-		outputFileName = args[2];
 		
 		try
 		{
@@ -36,22 +35,32 @@ public class Main {
 				//if(i>2)
 					//break;
 				System.out.println(line);
+				String body = line.split(":-")[1].trim();
 				String[] preds = line.split("\\;");
-				System.out.println("\n"+line);
+				//System.out.println("\n"+line);
 				String start = "RW: "+line;
 				OutPut.write(start.getBytes());
 				//OutPut.write(System.getProperty("line.separator").getBytes());
-				String ret = gdb.getGroundings(null, null, preds, OutPut);
+				
+				/*
+				 * For partial groundings 
+				 * Provide comma delimited string of variable names in first argument
+				 * and comma separated values of variables in the correct order
+				 */
+				String ret = gdb.getGroundings(null, null, preds, OutPut);  
+				
+				
+				//OutPut.write(ret.getBytes());
 				//System.out.println(ret);
 				//String end = " \n ";
-				//OutPut.write(System.getProperty("line.separator").getBytes());
+				OutPut.write(System.getProperty("line.separator").getBytes());
 				i++;
 				System.out.println(i);
 			}
 			OutPut.write(endAll.getBytes());
 			//gdb.close();
 			OutPut.close();
-			System.out.println("here");
+			//System.out.println("here");
 			BufferedReader new_br = new BufferedReader(new FileReader(new File(outputFileName)));
 			final long duration = System.nanoTime() - startTime;
 			System.out.println(duration);

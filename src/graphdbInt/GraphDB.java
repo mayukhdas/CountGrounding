@@ -615,7 +615,7 @@ public class GraphDB {
 			StringBuilder sb = new StringBuilder();
 			StringBuilder filter = new StringBuilder();
 			//filter.append("FILTER (");
-			sb.append(String.format("PREFIX nmspc: <%s> SELECT COUNT(*) as cnt WHERE {", ns));
+			sb.append(String.format("PREFIX nmspc: <%s> SELECT (count(*) as ?cnt) WHERE {", ns));
 			int neg=0;
 			for(int i = 0 ; i<preds.length; i++)
 			{
@@ -626,12 +626,19 @@ public class GraphDB {
 				
 				String predLabel = p.split("\\(")[0];
 				String argstr = p.split("\\(")[1].replace(')', ' ').trim();
-				System.out.println(predLabel);
+				//System.out.println(predLabel);
 				String[] arg = argstr.split(",");
 				
 				String arg1 = arg[0];
 				String arg2 = arg.length==1 ? arg[0].toString() : arg[1];
-								
+				if(predLabel.startsWith("_"))//inverse relations
+				{
+					predLabel = predLabel.replaceFirst("_", "");
+					String t = arg2;
+					arg2 = arg1;
+					arg1=t;
+				}
+				
 				String a1="",a2="";
 				a1 = "?"+arg1;
 				a2 = "?"+arg2;
@@ -706,23 +713,24 @@ public class GraphDB {
 				return 1;*/
 			StringBuilder tuple = new StringBuilder();
 			List<String> vars = results.getResultVars();
-			o.write(System.getProperty("line.separator").getBytes());
+			//o.write(System.getProperty("line.separator").getBytes());
 			for(String var:vars)
 			{
 				tuple.append(var+",");
 			}
 			tuple.setLength(tuple.length()-1);
 			//o.write(tuple.toString().getBytes());
-			o.write(System.getProperty("line.separator").getBytes());
+			//o.write(System.getProperty("line.separator").getBytes());
 			int c = 0;
 			while(results.hasNext())
 			{
-				System.out.println("HERE writing results-------------------------");
+				//System.out.println("HERE writing results-------------------------");
 				if(c>=1000)
 					break;
 				//ResultSetFormatter.outputAsJSON(o, results);
 				//ResultSetFormatter.outputAsCSV(o, results);
 				QuerySolution qs = results.next();
+				//c = qs.get("cnt").asLiteral().getInt();
 				tuple = new StringBuilder();
 				for(String var:vars)
 				{
