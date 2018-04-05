@@ -1,0 +1,3 @@
+SameVenue(aaa, bbb).
+SameVenue(bbb, ccc).
+SameVenue(eee, fff).

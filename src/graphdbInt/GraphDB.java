@@ -644,9 +644,9 @@ public class GraphDB {
 				a2 = "?"+arg2;
 				for(int j = 0; j<gvarlst.length;j++)
 				{
-					if(gvarlst[j].equalsIgnoreCase(arg1))
+					if(gvarlst[j].trim().equalsIgnoreCase(arg1))
 					{
-						a1 = "nmspc:"+vallst[j];
+						a1 = "nmspc:"+vallst[j].trim();
 						break;
 					}
 					else
@@ -655,9 +655,9 @@ public class GraphDB {
 				for(int j = 0; j<gvarlst.length;j++)
 				{
 						
-					if(gvarlst[j].equalsIgnoreCase(arg2))
+					if(gvarlst[j].trim().equalsIgnoreCase(arg2))
 					{
-						a2 = "nmspc:"+vallst[j];
+						a2 = "nmspc:"+vallst[j].trim();
 						break;
 					}
 					else
