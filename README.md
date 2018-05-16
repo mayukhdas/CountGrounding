@@ -1,4 +1,4 @@
-# CountGrounding
+# Generate all instantiations of relational horn clause, given the data. 
 
 All Files must be in ./data
 
